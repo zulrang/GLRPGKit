@@ -36,14 +36,17 @@ function MapLayer:fromImageData(data)
     for x=1,self.width do
       r, g, b, a = data:getPixel(x-1, y-1)
       index = 0
+      passable = true
       if b == 255 then
         index = 5
+        passable = false
       end
       if b == 102 then
         index = 4
       end
       if b == 51 then
         index = 3
+        passable = false
       end
       if g == 153 and index == 0 then
         index = 2
@@ -60,7 +63,7 @@ function MapLayer:fromImageData(data)
         index = 7
       end
 
-      self.map[y][x] = Tile:new(index, 1)
+      self.map[y][x] = Tile:new(index, 1, passable)
     end
   end
 end

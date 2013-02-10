@@ -5,16 +5,26 @@ require 'lib/vector2'
 
 Camera = class('Camera')
 
-function Camera:initialize(rect, position)
+function Camera:initialize(viewportWidth, viewportHeight, position)
 	self.speed = 400
+	self.zoomSpeed = 1
 	self.zoom = 1
 	self.position = position or Vector2:new(0,0)
-	self.viewportRect = rect
+	self.viewportWidth = viewportWidth
+	self.viewportHeight = viewportHeight
 end
 
-function Camera:lock(maxX, maxY)
+function Camera:zoomIn(dt)
+	self.zoom = self.zoom + self.zoomSpeed * dt
+end
+
+function Camera:zoomOut(dt)
+	self.zoom = self.zoom - self.zoomSpeed * dt
+end
+
+function Camera:lock()
 	self.position.x = math.clamp(self.position.x, 0,
-		maxX * self.zoom - self.viewportRect.width)
+		self.lockMaxX - (self.viewportWidth / self.zoom))
 	self.position.y = math.clamp(self.position.y, 0,
-		maxY * self.zoom - self.viewportRect.height)
+		self.lockMaxY - (self.viewportHeight / self.zoom))
 end

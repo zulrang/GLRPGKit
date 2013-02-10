@@ -23,10 +23,10 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.push()
-	love.graphics.scale(4,4)
+	--love.graphics.push()
+	--love.graphics.scale(4,4)
 	game:draw() -- tell the game to draw scaled content
-	love.graphics.pop()
+	--love.graphics.pop()
 
 	game:drawUnscaled() -- draw unscaled content (overlays/menus)
 end
