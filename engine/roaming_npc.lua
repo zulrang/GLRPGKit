@@ -1,5 +1,5 @@
 
-require 'game/entity'
+require 'engine/entity'
 
 RoamingNpc = class('RoamingNpc', Entity)
 

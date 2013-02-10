@@ -1,5 +1,5 @@
 
-require 'game/entity'
+require 'engine/entity'
 
 Player = class('Player', Entity)
 
