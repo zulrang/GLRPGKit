@@ -37,6 +37,9 @@ end
 
 function Game:addComponent(comp)
 	self.components[comp.id] = comp
+	if comp.isDrawable then
+		comp:loadContent()
+	end
 end
 
 function Game:removeComponent(comp)

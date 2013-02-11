@@ -82,55 +82,12 @@ end
 
 function GameplayScreen:update(dt)
 
-	motion = Vector2:new(0,0)
-
-	if love.keyboard.isDown("right") then
-		motion.x = self.camera.speed
-	end
-
-	if love.keyboard.isDown("left") then
-		motion.x = -self.camera.speed
-	end
-
-	if love.keyboard.isDown("up") then
-		motion.y = -self.camera.speed
-	end
-
-	if love.keyboard.isDown("down") then
-		motion.y = self.camera.speed
-	end
-
-	if love.keyboard.isDown("1") then
-		self.camera.zoom = 1
-	end
-
-	if love.keyboard.isDown("2") then
-		self.camera.zoom = 2
-	end
-
-	if love.keyboard.isDown("3") then
-		self.camera.zoom = 3
-	end
-
-	if love.keyboard.isDown("4") then
-		self.camera.zoom = 4
-	end
-
-	if love.keyboard.isDown("=") then
-		self.camera:zoomIn(dt)
-	end
-
-	if love.keyboard.isDown("-") then
-		self.camera:zoomOut(dt)
-	end
-
-	motion:normalize()
-
-	self.camera.position = self.camera.position + motion * self.camera.speed * dt
-	self.camera:lock()
-
-
+	self.camera:update(dt)
 	self.map:update(dt)
+
+	self.mouseWorldPosX, self.mouseWorldPosY = self.camera:getMousePos()
+	self.mouseTilePosX, self.mouseTilePosY = self.map:positionToTile(self.mouseWorldPosX, self.mouseWorldPosY)
+
 end
 
 function GameplayScreen:draw()
@@ -141,6 +98,17 @@ function GameplayScreen:draw()
 	love.graphics.translate(-self.camera.position.x, -self.camera.position.y)
 
 	self.map:draw()
+
+	-- draw tile highlight
+
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.rectangle(
+		"line",
+		self.map.tileSize*(self.mouseTilePosX-1),
+		self.map.tileSize*(self.mouseTilePosY-1),
+		16,
+		16
+		)
 
 	love.graphics.pop()
 
@@ -154,6 +122,12 @@ function GameplayScreen:drawUnscaled()
   	love.graphics.print("FPS: "..love.timer.getFPS(), 10, 10)
   	love.graphics.print("Player: ("..self.player.mapPosition.x..", "..
   		self.player.mapPosition.y..")", 10, 30)
+
+  	love.graphics.print("Mouse: ("..self.mouseWorldPosX..", "..
+  		self.mouseWorldPosY..")", 10, 50)
+
+  	love.graphics.print("Mouse (tile): ("..self.mouseTilePosX..", "..
+  		self.mouseTilePosY..")", 10, 70)
 
 	BaseGameState.draw(self)
 end

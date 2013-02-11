@@ -1,5 +1,6 @@
 
 require 'game/base_game_state'
+require 'game/gameplay_screen'
 
 TitleScreen = class('TitleScreen', BaseGameState)
 
@@ -11,6 +12,14 @@ end
 function TitleScreen:loadContent()
 	self.backgroundImage = love.graphics.newImage('content/titlescreen.png')
 	BaseGameState.loadContent(self)
+end
+
+function TitleScreen:update(dt)
+
+	if love.keyboard.isDown(" ") then
+		self.stateManager:changeState(game.gameplayScreen)
+	end
+
 end
 
 function TitleScreen:draw()

@@ -22,6 +22,13 @@ function TileMap:initialize(mapWidth, mapHeight, tileSize, tilesets, layers)
 
 end
 
+function TileMap:positionToTile(posX, posY)
+	-- determine tile xy coords from position
+	-- (ajusted for 1-index array)
+	return math.floor(posX / self.tileSize)+1, math.floor(posY / self.tileSize)+1
+end
+
+
 function TileMap:updateSpriteBatch()
 
 	-- draw each layer
